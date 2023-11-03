@@ -1,0 +1,21 @@
+.tree-bg-none {
+  .bp4-tree-node-content {
+    background-color: white !important;
+
+    .bp4-tree-node-caret {
+      &::before {
+        color: rgba(black, 0.7);
+      }
+
+      &:hover::before {
+        color: black;
+      }
+    }
+    .bp4-tree-node-label {
+      color: black;
+    }
+    .bp4-icon {
+      color: #5f6b7c !important;
+    }
+  }
+}

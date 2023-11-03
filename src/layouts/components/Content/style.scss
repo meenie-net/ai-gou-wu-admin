@@ -1,0 +1,48 @@
+.page {
+  position: absolute;
+}
+
+.page-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+// .page-appear {
+//   opacity: 0;
+//   transform: translateX(-10px);
+// }
+
+// .page-appear-active {
+//   opacity: 1;
+//   transform: translateX(0px);
+// }
+// .page-appear-done {
+//   opacity: 1;
+//   transform: translateX(0px);
+//   transition: opacity 300ms linear, transform 300ms linear;
+// }
+
+.page-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.ka-wrapper {
+  flex: auto;
+  display: flex;
+  min-width: 0;
+}
+.ka-content {
+  flex: auto;
+  min-width: 0;
+}
