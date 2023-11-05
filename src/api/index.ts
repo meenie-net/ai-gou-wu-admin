@@ -1,5 +1,6 @@
 import { http } from "./http";
 import { permisson } from "../../mock/permission";
+import { ICategory } from "../views/Goods/goods";
 export interface IResponse {
   status: ResCodeEnum;
   msg: string;
@@ -21,7 +22,7 @@ export interface IPaginationRequest {
  *** 40000
  */
 export enum ResCodeEnum {
-  SUCCESS = 10000,
+  SUCCESS = 0,
   NOT_LOGIN = 50000,
 }
 
@@ -97,5 +98,11 @@ export const api = {
   },
   deleteGoods() {
     return http.get(base_url + "/spu");
+  },
+  getAllCategory() {
+    return http.get(base_url + "/category");
+  },
+  addCategory(category: ICategory) {
+    return http.post(base_url + "/category", category);
   },
 };

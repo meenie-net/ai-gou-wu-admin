@@ -14,18 +14,12 @@ export declare interface IGoodsResponse extends IGoods {
 }
 export declare interface ICategory {
   id?: string;
-  brandId: string;
-  categoryId: string;
-  channel: 0;
-  desc: string;
   name: string;
+  logo: string;
+  parentId: string;
 }
-export declare interface ICategoryResponse {
+export declare interface ICategoryResponse extends ICategory {
   id: string;
-  brand: string;
-  category: string;
-  channel: 0;
-  desc: string;
-  name: string;
-  updateTime: string;
+  children: ICategoryResponse[];
+  createTime: string;
 }
