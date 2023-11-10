@@ -1,18 +1,18 @@
 import { IconName, Intent, MaybeElement } from "@blueprintjs/core";
 import emitter, { EmitEventEnum } from "../utils/EventEmitter";
 import { AppToaster } from "../utils/Toaster";
-import { IResponse, ResCodeEnum } from "../api";
+import { ResCodeEnum } from "../api";
 import { AxiosResponse } from "axios";
 
 export const useHandleConfirm = (config: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handler: (args?: any) => Promise<AxiosResponse<any, any>>;
-  param?: object;
+  args?: any;
   message: string;
   icon?: IconName | MaybeElement;
   intent?: Intent | undefined;
 }) => {
-  const { handler, param, message, icon, intent } = config;
+  const { handler, args, message, icon, intent } = config;
   AppToaster.clear();
   emitter.emit(EmitEventEnum.OpenGlobalAlert, {
     message,
@@ -21,8 +21,8 @@ export const useHandleConfirm = (config: {
   });
   return new Promise((resolve, reject) => {
     const cb = async () => {
-      const { status } = await handler(param);
-      if (status === ResCodeEnum.SUCCESS) {
+      const { data } = await handler(args);
+      if (data.status === ResCodeEnum.SUCCESS) {
         AppToaster.show({
           message: "成功",
           icon: "tick",

@@ -4,17 +4,20 @@ import {
   Drawer,
   DrawerProps,
   FormGroup,
+  TreeNodeInfo,
 } from "@blueprintjs/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import EnhancedInput from "../../components/EnhancedForm/EnhancedInput";
 import EnhancedRadioGroup from "../../components/EnhancedForm/EnhancedRadioGroup";
-import EnhancedSelect from "../../components/EnhancedForm/EnhancedSelect";
 import EnhancedTextArea from "../../components/EnhancedForm/EnhancedTextArea";
 import EnhancedHTMLSelect from "../../components/EnhancedForm/EnhancedHTMLSelect";
 import GoodsBrandDialog from "./GoodsBrandDialog";
 import GoodsCategoryDialog from "./GoodsCategoryDialog";
 import useOverlay, { IUseOverlay } from "../../hooks/useOverlay";
+import EnhancedTreeSelect from "../../components/EnhancedForm/EnhancedTreeSelect";
+import { ResCodeEnum, api } from "../../api";
+import { ICategoryResponse } from "./goods";
 
 const GoodsDrawer = (props: { drawProps: DrawerProps; payload: any }) => {
   const {
@@ -22,11 +25,68 @@ const GoodsDrawer = (props: { drawProps: DrawerProps; payload: any }) => {
     payload: { state, goods },
   } = props;
   const [inline] = useState(true);
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [categoriesTree, setCategoriesTree] = useState<TreeNodeInfo[]>([]);
   const { handleSubmit, control } = useForm({ mode: "all" });
   const { props: brandDialogProps, rest: brandDialogRest }: IUseOverlay =
     useOverlay({});
   const { props: categoryDialogProps, rest: categoryDialogRest }: IUseOverlay =
     useOverlay({});
+  const initCategory = async () => {
+    const { data: categoryData } = await api.getAllCategory();
+    if (categoryData.status === ResCodeEnum.SUCCESS) {
+      setCategories(categoryData.data);
+    }
+    const result: TreeNodeInfo[] = [];
+    categories.map((item: ICategoryResponse) => {
+      if (item.parentId === "") {
+        result.push({
+          id: item.id,
+          label: item.name,
+        });
+      }
+    });
+    const findChildren = (
+      parentId: string,
+      items: ICategoryResponse[]
+    ): TreeNodeInfo[] => {
+      const childNodes: TreeNodeInfo[] = [];
+      items.forEach((item) => {
+        if (parentId === item.parentId) {
+          if (findChildren(item.id, categories).length === 0) {
+            childNodes.push({
+              id: item.id,
+              label: item.name,
+            });
+          } else {
+            childNodes.push({
+              id: item.id,
+              label: item.name,
+              childNodes: findChildren(item.id, categories),
+            });
+          }
+        }
+      });
+      return childNodes;
+    };
+    result.forEach((item) => {
+      if (findChildren(item.id.toString(), categories).length != 0) {
+        item.childNodes = findChildren(item.id.toString(), categories);
+      }
+    });
+    setCategoriesTree(result);
+  };
+  const initBrand = async () => {
+    const { data: brandsData } = await api.getAllBrand();
+    if (brandsData.status === ResCodeEnum.SUCCESS) setBrands(brandsData);
+  };
+
+  useEffect(() => {
+    initCategory();
+    initBrand();
+  }, []);
+
   const onSubmit = (data: any) => {
     console.log(data);
   };
@@ -42,6 +102,12 @@ const GoodsDrawer = (props: { drawProps: DrawerProps; payload: any }) => {
     categoryDialogRest.onOpen();
   };
 
+  const onBrandDialogClosed = () => {
+    initCategory();
+  };
+  const onCategoryDialogClosed = () => {
+    initCategory();
+  };
   return (
     // todo
     <Drawer
@@ -56,7 +122,7 @@ const GoodsDrawer = (props: { drawProps: DrawerProps; payload: any }) => {
           : "查看商品信息"
       }
     >
-      <div className="p-5 overflow-y-auto">
+      <div className="overflow-y-auto p-5">
         {/* 名称 */}
         <EnhancedInput
           controllerConfig={{
@@ -116,7 +182,7 @@ const GoodsDrawer = (props: { drawProps: DrawerProps; payload: any }) => {
           }
         />
         {/* 分类 */}
-        <EnhancedSelect
+        <EnhancedTreeSelect
           controllerConfig={{
             name: "categoryId",
             control,
@@ -129,26 +195,12 @@ const GoodsDrawer = (props: { drawProps: DrawerProps; payload: any }) => {
             labelInfo: <div className="w-16">(必填)</div>,
           }}
           childrenProps={{
-            config: {
-              titleKey: "name",
-              groupKey: "category",
-              filterKeys: ["name", "category"],
-              optionKeysKey: "id",
-              resultKey: "id",
+            treeFilterProps: {
+              options: categoriesTree,
             },
-            selectProps: {
-              items: [
-                { level: "1-1", name: "普通本科", category: "本科", id: 1 },
-                { level: "1-2", name: "专升本", category: "本科", id: 2 },
-                { level: "2-1", name: "学术硕士", category: "硕士", id: 3 },
-                { level: "2-2", name: "专业硕士", category: "硕士", id: 4 },
-                { level: "3", name: "博士", category: "博士", id: 5 },
-              ],
-              resetOnClose: true,
+            selectButtonProps: {
+              className: "w-[200px]",
             },
-          }}
-          buttonProps={{
-            disabled: state === "view",
           }}
           restChildren={
             state != "view" && (
@@ -224,10 +276,19 @@ const GoodsDrawer = (props: { drawProps: DrawerProps; payload: any }) => {
           </FormGroup>
         )}
       </div>
-      {brandDialogRest.isDisplay && <GoodsBrandDialog {...brandDialogProps} />}
+      {brandDialogRest.isDisplay && (
+        <GoodsBrandDialog
+          {...brandDialogProps}
+          onClosed={onBrandDialogClosed}
+          brands={brands}
+        />
+      )}
 
       {categoryDialogRest.isDisplay && (
-        <GoodsCategoryDialog {...categoryDialogProps} />
+        <GoodsCategoryDialog
+          {...categoryDialogProps}
+          onClosed={onCategoryDialogClosed}
+        />
       )}
     </Drawer>
   );

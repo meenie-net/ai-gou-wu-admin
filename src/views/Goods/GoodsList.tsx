@@ -65,7 +65,7 @@ const GoodsList = () => {
   const handleDelete = async (goods: IGoods) => {
     await useHandleConfirm({
       handler: api.deleteGoods,
-      param: { id: goods.id },
+      args: { id: goods.id },
       message: `确认删除${goods.name}吗？`,
       icon: "trash",
       intent: "danger",
@@ -158,7 +158,7 @@ const GoodsList = () => {
   );
   return (
     // 用户列表container
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       {/* 用户列表操作区 */}
       <Card className="flex justify-between pb-0">
         {/* 用户列表操作区左边 */}
@@ -199,7 +199,7 @@ const GoodsList = () => {
         </div>
       </Card>
       {/* 用户列表内容区 */}
-      <Card className="flex flex-col flex-auto min-h-0 mt-3">
+      <Card className="mt-3 flex min-h-0 flex-auto flex-col">
         {/* 用户列表内容区头部 */}
         <div className="flex">
           <FormGroup inline className="mr-2">
@@ -214,7 +214,7 @@ const GoodsList = () => {
           </FormGroup>
         </div>
         {/* 用户列表内容区表格 */}
-        <div className="flex-auto min-h-0">
+        <div className="min-h-0 flex-auto">
           <HotkeysProvider>
             <Table2
               ref={tableRef}
@@ -270,7 +270,7 @@ const GoodsList = () => {
           </HotkeysProvider>
         </div>
         {/* 用户列表内容区分页 */}
-        <div className="flex justify-center mt-4">
+        <div className="mt-4 flex justify-center">
           <Pagination
             {...pager}
             pagerCount={7} // 分页器页码按钮最大显示数：奇数 || 偶数--

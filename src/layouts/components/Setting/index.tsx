@@ -34,7 +34,7 @@ const Setting = (props: { mode: "dark" | "light" }) => {
           navigate("/login");
         });
       },
-      param: {},
+      args: {},
       icon: <Iconify icon="ph:question" height="1.5em" />,
       message: `确认退出吗？`,
       intent: "warning",
@@ -108,7 +108,7 @@ const Setting = (props: { mode: "dark" | "light" }) => {
             </span>
           </Button>
         </Popover2>
-        <span className="flex items-center ml-3 font-semibold">Meenie</span>
+        <span className="ml-3 flex items-center font-semibold">Meenie</span>
         <Popover2 content={AccountMenu} placement="bottom">
           <Button>
             <img

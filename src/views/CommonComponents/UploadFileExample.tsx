@@ -32,12 +32,12 @@ const UploadFileExample = () => {
                 <td className="border">
                   包含在一个<code>button</code>中，定制入口样式
                 </td>
-                <td className="border px-2">
-                  <code className="rounded-sm bg-gray-200 px-1">
+                <td className="px-2 border">
+                  <code className="px-1 bg-gray-200 rounded-sm">
                     ReactElement
                   </code>
                 </td>
-                <td className="border p-2">
+                <td className="p-2 border">
                   <Button small>点击选择</Button>
                 </td>
               </tr>
@@ -46,8 +46,8 @@ const UploadFileExample = () => {
                   <pre>type</pre>
                 </td>
                 <td className="border">等待区显示类型</td>
-                <td className="border px-2">
-                  <code className="rounded-sm bg-gray-200 px-1">
+                <td className="px-2 border">
+                  <code className="px-1 bg-gray-200 rounded-sm">
                     {`"fileName" | "thumbnail"`}
                   </code>
                 </td>
@@ -58,8 +58,8 @@ const UploadFileExample = () => {
                   <pre>crop</pre>
                 </td>
                 <td className="border">是否裁剪</td>
-                <td className="border px-2">
-                  <code className="rounded-sm bg-gray-200 px-1">boolean</code>
+                <td className="px-2 border">
+                  <code className="px-1 bg-gray-200 rounded-sm">boolean</code>
                 </td>
                 <td className="border">false</td>
               </tr>
@@ -68,8 +68,8 @@ const UploadFileExample = () => {
                   <pre>preview</pre>
                 </td>
                 <td className="border">是否预览</td>
-                <td className="border px-2">
-                  <code className="rounded-sm bg-gray-200 px-1">boolean</code>
+                <td className="px-2 border">
+                  <code className="px-1 bg-gray-200 rounded-sm">boolean</code>
                 </td>
                 <td className="border">false</td>
               </tr>
@@ -78,7 +78,7 @@ const UploadFileExample = () => {
           <div className="grid grid-cols-2 gap-2">
             <div className="border">
               <h1>单图片上传（无裁剪）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedImageUploadRU
                   controllerConfig={{
                     name: "file",
@@ -96,7 +96,7 @@ const UploadFileExample = () => {
             </div>
             <div className="border">
               <h1>单图片上传（裁剪）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedImageUploadRU
                   controllerConfig={{
                     name: "file",
@@ -111,7 +111,7 @@ const UploadFileExample = () => {
                   }}
                   childrenProps={{
                     uploadButton: (
-                      <div className="flex h-24 w-36 flex-col items-center justify-center rounded border border-dashed border-gray-300 bg-white hover:border-blue-600 ">
+                      <div className="flex flex-col items-center justify-center h-24 bg-white border border-gray-300 border-dashed rounded w-36 hover:border-blue-600 ">
                         <div>
                           <Icon icon="ph:image" height="1.5em" />
                         </div>
@@ -125,7 +125,7 @@ const UploadFileExample = () => {
             </div>
             <div className="border">
               <h1>选择头像（单图裁剪固定比例及大小）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedImageUploadRU
                   controllerConfig={{
                     name: "file",
@@ -140,7 +140,7 @@ const UploadFileExample = () => {
                   }}
                   childrenProps={{
                     uploadButton: (
-                      <div className="flex h-24 w-36 flex-col items-center justify-center rounded border border-dashed border-gray-300 bg-white hover:border-blue-600 ">
+                      <div className="flex flex-col items-center justify-center h-24 bg-white border border-gray-300 border-dashed rounded w-36 hover:border-blue-600 ">
                         <div>
                           <Icon icon="ph:image" height="1.5em" />
                         </div>
@@ -154,7 +154,7 @@ const UploadFileExample = () => {
             </div>
             <div className="border">
               <h1>多图片上传（无裁剪）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedImageUploadRU
                   controllerConfig={{
                     name: "file",
@@ -169,7 +169,7 @@ const UploadFileExample = () => {
                   }}
                   childrenProps={{
                     uploadButton: (
-                      <div className="flex h-24 w-36 flex-col items-center justify-center rounded border border-dashed border-gray-300 bg-white hover:border-blue-600 ">
+                      <div className="flex flex-col items-center justify-center h-24 bg-white border border-gray-300 border-dashed rounded w-36 hover:border-blue-600 ">
                         <div>
                           <Icon icon="ph:image" height="1.5em" />
                         </div>
@@ -183,7 +183,7 @@ const UploadFileExample = () => {
             </div>
             <div className="border">
               <h1>多图片上传（裁剪）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedImageUploadRU
                   controllerConfig={{
                     name: "file",
@@ -198,7 +198,7 @@ const UploadFileExample = () => {
                   }}
                   childrenProps={{
                     uploadButton: (
-                      <div className="flex h-24 w-36 flex-col items-center justify-center rounded border border-dashed border-gray-300 bg-white hover:border-blue-600 ">
+                      <div className="flex flex-col items-center justify-center h-24 bg-white border border-gray-300 border-dashed rounded w-36 hover:border-blue-600 ">
                         <div>
                           <Icon icon="ph:image" height="1.5em" />
                         </div>
@@ -212,7 +212,7 @@ const UploadFileExample = () => {
             </div>
             <div className="border">
               <h1>图片视频上传（预览）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedImageUploadRU
                   controllerConfig={{
                     name: "file",
@@ -227,7 +227,7 @@ const UploadFileExample = () => {
                   }}
                   childrenProps={{
                     uploadButton: (
-                      <div className="flex h-24 w-36 flex-col items-center justify-center rounded border border-dashed border-gray-300 bg-white hover:border-blue-600 ">
+                      <div className="flex flex-col items-center justify-center h-24 bg-white border border-gray-300 border-dashed rounded w-36 hover:border-blue-600 ">
                         <div>
                           <Icon icon="ph:image" height="1.5em" />
                         </div>
@@ -241,7 +241,7 @@ const UploadFileExample = () => {
             </div>
             <div className="border">
               <h1>文件上传（进度条）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedImageUploadRU
                   controllerConfig={{
                     name: "file",
@@ -256,7 +256,7 @@ const UploadFileExample = () => {
                   }}
                   childrenProps={{
                     uploadButton: (
-                      <div className="flex h-24 w-36 flex-col items-center justify-center rounded border border-dashed border-gray-300 bg-white hover:border-blue-600 ">
+                      <div className="flex flex-col items-center justify-center h-24 bg-white border border-gray-300 border-dashed rounded w-36 hover:border-blue-600 ">
                         <div>
                           <Icon icon="ph:image" height="1.5em" />
                         </div>
@@ -275,7 +275,7 @@ const UploadFileExample = () => {
           <div className="grid grid-cols-2 gap-2">
             <div className="border">
               <h1>单图片上传（裁剪）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedFileInput
                   controllerConfig={{
                     name: "file",
@@ -297,7 +297,7 @@ const UploadFileExample = () => {
             </div>
             <div className="border">
               <h1>选择头像（单图裁剪固定比例及大小）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedFileInput
                   controllerConfig={{
                     name: "file",
@@ -324,7 +324,7 @@ const UploadFileExample = () => {
           <div className="grid grid-cols-2 gap-2">
             <div className="border">
               <h1>图片视频上传（预览）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedImageUploadRU
                   controllerConfig={{
                     name: "file",
@@ -343,7 +343,7 @@ const UploadFileExample = () => {
             </div>
             <div className="border">
               <h1>文件上传（进度条）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedFileInput
                   controllerConfig={{
                     name: "file",
@@ -365,7 +365,7 @@ const UploadFileExample = () => {
             </div>
             <div className="border">
               <h1>图片视频上传（预览）</h1>
-              <div className="bg-slate-200 p-3">
+              <div className="p-3 bg-slate-200">
                 <EnhancedImageUploadRU
                   controllerConfig={{
                     name: "file",

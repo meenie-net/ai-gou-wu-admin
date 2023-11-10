@@ -11,8 +11,11 @@ import {
 } from "@blueprintjs/core";
 import { useState } from "react";
 import { MenuItem2 } from "@blueprintjs/popover2";
+import { IBrandResponse } from "./goods";
 
-const GoodsBrandDialog = (props: DialogProps) => {
+const GoodsBrandDialog = (
+  props: DialogProps & { brands: IBrandResponse[] }
+) => {
   const brands = [
     {
       id: 0,

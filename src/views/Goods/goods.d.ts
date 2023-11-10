@@ -23,3 +23,14 @@ export declare interface ICategoryResponse extends ICategory {
   children: ICategoryResponse[];
   createTime: string;
 }
+export declare interface IBrand {
+  id?: string;
+  name: string;
+  logo: string;
+  parentId: string;
+}
+export declare interface IBrandResponse extends IBrand {
+  id: string;
+  children: IBrandResponse[];
+  createTime: string;
+}

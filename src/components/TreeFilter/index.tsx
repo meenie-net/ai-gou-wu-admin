@@ -59,7 +59,11 @@ function treeReducer(state: TreeNodeInfo[], action: TreeAction) {
       // eslint-disable-next-line no-case-declarations
       forNodeAtPath(state, action.payload.path, (node) => {
         node.isSelected = action.payload.isSelected;
-        if (action.payload.multiple && node.childNodes) {
+        if (
+          action.payload.multiple &&
+          node.childNodes &&
+          node.childNodes.length > 0
+        ) {
           // 多选
           node.className = "tree-bg-none";
           // 多选有子选项
@@ -123,23 +127,26 @@ function treeReducer(state: TreeNodeInfo[], action: TreeAction) {
   }
 }
 
-interface ITreeFilterProps {
+export interface ITreeFilterProps {
   options: TreeNodeInfo[];
   multiple?: boolean;
   onChange: (result: ITreeFilterResult) => void;
 }
 
-export type ITreeFilterResult = Array<string | number> | string | number;
+export type ITreeFilterResult =
+  | Array<string | number>
+  | string
+  | number
+  | object;
 
 const TreeFilter = ({ options = [], multiple, onChange }: ITreeFilterProps) => {
   const ganerateTree = (origin: TreeNodeInfo[]): TreeNodeInfo[] => {
     return origin.map((node) => {
       let childNodes = [];
-      if (node.childNodes) {
+      if (node.childNodes && node.childNodes.length > 0) {
         childNodes = ganerateTree(node.childNodes);
         return {
           ...node,
-          isSelected: false,
           icon: multiple ? (
             <input type="checkbox" checked={false} className="mr-2" readOnly />
           ) : null,
@@ -148,7 +155,6 @@ const TreeFilter = ({ options = [], multiple, onChange }: ITreeFilterProps) => {
       } else {
         return {
           ...node,
-          isSelected: false,
           icon: multiple ? (
             <input type="checkbox" checked={false} className="mr-2" readOnly />
           ) : null,
@@ -162,7 +168,6 @@ const TreeFilter = ({ options = [], multiple, onChange }: ITreeFilterProps) => {
     nodePath: NodePath,
     e: React.MouseEvent<HTMLElement>
   ) => {
-    if (node.childNodes && !multiple) return;
     if (!e.shiftKey && !multiple) {
       dispatch({ type: "DESELECT_ALL" });
     }
@@ -196,21 +201,22 @@ const TreeFilter = ({ options = [], multiple, onChange }: ITreeFilterProps) => {
     },
     []
   );
-
+  const getSelected = (nodes: TreeNodeInfo[]) => {
+    const res: any[] = [];
+    nodes.forEach((element) => {
+      if (element.childNodes && element.childNodes.length > 0) {
+        const childRes = getSelected(element.childNodes);
+        if (childRes) res.push(childRes);
+      }
+      if (element.isSelected) {
+        res.push(element);
+      }
+    });
+    return multiple ? res.flat() : res.flat()[0];
+  };
   useEffect(() => {
-    const getSelectedId = (nodes: TreeNodeInfo[]) => {
-      const res: any[] = [];
-      nodes.forEach((element) => {
-        if (element.childNodes) {
-          res.push(getSelectedId(element.childNodes));
-        }
-        if (element.isSelected && !element.childNodes) {
-          res.push(element.id);
-        }
-      });
-      return res.flat();
-    };
-    onChange(getSelectedId(nodes));
+    const selected = getSelected(nodes);
+    if (selected && selected.length !== 0) onChange(getSelected(nodes));
   }, [nodes]);
   return (
     <Tree
@@ -218,7 +224,7 @@ const TreeFilter = ({ options = [], multiple, onChange }: ITreeFilterProps) => {
       onNodeClick={handleNodeClick}
       onNodeCollapse={handleNodeCollapse}
       onNodeExpand={handleNodeExpand}
-      className={Classes.ELEVATION_0}
+      className={Classes.ELEVATION_0 + " w-[200px]"}
     />
   );
 };

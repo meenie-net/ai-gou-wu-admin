@@ -6,6 +6,14 @@ axios.defaults.timeout = 15000;
 axios.defaults.headers.get["Content-Type"] = "application/json; charset=UTF-8";
 axios.defaults.headers.post["Content-Type"] = "application/json; charset=UTF-8";
 
+// 开发环境
+const base_url = "http://127.0.0.1:3000";
+// 测试环境
+// const base_url = 'http://127.0.0.1:4523/m1/2564219-0-default'
+// 生产环境
+// const base_url = 'http://127.0.0.1:4523/m1/2564219-0-default'
+axios.defaults.baseURL = base_url;
+
 const pending: any = {};
 const CancelToken = axios.CancelToken;
 const removePending = (key: string, isRequest = false) => {
@@ -47,12 +55,13 @@ axios.interceptors.response.use(
       AppToaster.show({ message: "未登录" });
       return Promise.reject(res);
     }
-    AppToaster.show({ message: res.data.msg });
+    // AppToaster.show({ message: res.data.msg });
     return Promise.resolve(res);
   },
   async (err: any) => {
-    AppToaster.show({ message: err.response });
-    return Promise.reject(err.response);
+    console.log("err", err);
+    AppToaster.show({ message: err.response.data.data, intent: "danger" });
+    return Promise.reject(err.response.data);
   }
 );
 
